@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_Shop.RestAPI", "Web_Shop.RestAPI\Web_Shop.RestAPI.csproj", "{FF5297F1-66ED-45AF-B041-5A3CF9D18D80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_Shop.Persistence.MySQL", "Web_Shop.Persistence.MySQL\Web_Shop.Persistence.MySQL.csproj", "{B696C430-5D2E-4FFA-BF72-B0A0F9D72617}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FF5297F1-66ED-45AF-B041-5A3CF9D18D80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF5297F1-66ED-45AF-B041-5A3CF9D18D80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF5297F1-66ED-45AF-B041-5A3CF9D18D80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B696C430-5D2E-4FFA-BF72-B0A0F9D72617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B696C430-5D2E-4FFA-BF72-B0A0F9D72617}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B696C430-5D2E-4FFA-BF72-B0A0F9D72617}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B696C430-5D2E-4FFA-BF72-B0A0F9D72617}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
