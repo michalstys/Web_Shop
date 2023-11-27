@@ -1,1 +1,1 @@
-﻿dotnet ef dbcontext scaffold "Host=localhost;Database=wwsishop;Username=root;Password=example" Pomelo.EntityFrameworkCore.MySql --context-dir src/Context -o src/Model --context-namespace WWSI_Shop.Persistence.MySQL.Context --namespace WWSI_Shop.Persistence.MySQL.Model -f
+﻿dotnet ef dbcontext scaffold "Host=localhost;Database=wwsishop;Username=root;Password=example" Pomelo.EntityFrameworkCore.MySql --context-dir Context -o Model --context-namespace WWSI_Shop.Persistence.MySQL.Context --namespace WWSI_Shop.Persistence.MySQL.Model -f
