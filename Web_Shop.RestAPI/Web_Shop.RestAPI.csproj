@@ -14,4 +14,8 @@
 	<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Web_Shop.Persistence\Web_Shop.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>
