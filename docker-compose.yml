@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  web_shop.restapi:
+    image: ${DOCKER_REGISTRY-}webshoprestapi
+    build:
+      context: .
+      dockerfile: Web_Shop.RestAPI/Dockerfile

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_Shop.RestAPI", "Web_Sho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_Shop.Persistence.MySQL", "Web_Shop.Persistence.MySQL\Web_Shop.Persistence.MySQL.csproj", "{B696C430-5D2E-4FFA-BF72-B0A0F9D72617}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E12A9F93-4F5D-4154-86D1-F7E80A9D796A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B696C430-5D2E-4FFA-BF72-B0A0F9D72617}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B696C430-5D2E-4FFA-BF72-B0A0F9D72617}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B696C430-5D2E-4FFA-BF72-B0A0F9D72617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E12A9F93-4F5D-4154-86D1-F7E80A9D796A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E12A9F93-4F5D-4154-86D1-F7E80A9D796A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E12A9F93-4F5D-4154-86D1-F7E80A9D796A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E12A9F93-4F5D-4154-86D1-F7E80A9D796A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
