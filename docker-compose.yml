@@ -6,6 +6,16 @@ services:
     build:
       context: .
       dockerfile: Web_Shop.RestAPI/Dockerfile
+    depends_on:
+      - wwsi_shop_db
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - wwsi_shop_db
 
   wwsi_shop_db:
     image: mysql
@@ -19,12 +29,6 @@ services:
       MYSQL_ROOT_PASSWORD: example
     ports:
       - 3306:3306
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
 
 volumes:
   wwsi_shop_dbdata:
