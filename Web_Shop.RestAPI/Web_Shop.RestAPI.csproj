@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Web_Shop.Application\Web_Shop.Application.csproj" />
     <ProjectReference Include="..\Web_Shop.Persistence\Web_Shop.Persistence.csproj" />
   </ItemGroup>
 
