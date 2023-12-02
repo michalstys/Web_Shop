@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
-using Web_Shop.Persistence.UOW;
 using Web_Shop.Persistence.UOW.Interfaces;
-using WWSI_Shop.Persistence.MySQL.Context;
 
 namespace Web_Shop.RestAPI.Controllers
 {
