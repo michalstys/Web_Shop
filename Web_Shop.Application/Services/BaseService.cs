@@ -5,6 +5,9 @@ using System.Xml.Linq;
 using Web_Shop.Application.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using Web_Shop.Persistence.UOW.Interfaces;
+using Microsoft.Extensions.Options;
+using Sieve.Models;
+using Sieve.Services;
 
 namespace Web_Shop.Application.Services
 {
@@ -14,20 +17,28 @@ namespace Web_Shop.Application.Services
         private readonly ILogger<T> _logger;
 
         protected readonly IUnitOfWork _unitOfWork;
+        protected readonly ISieveProcessor _sieveProcessor;
+        protected readonly IOptions<SieveOptions> _sieveOptions;
 
         private bool _tracking = true;
 
         public BaseService(ILogger<T> logger,
+                           ISieveProcessor sieveProcessor,
+                           IOptions<SieveOptions> sieveOptions,
                            IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _sieveProcessor = sieveProcessor;
+            _sieveOptions = sieveOptions;
         }
+
         public IBaseService<T> WithTracking()
         {
             _tracking = true;
             return this;
         }
+
         public IBaseService<T> WithoutTracking()
         {
             _tracking = false;

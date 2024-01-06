@@ -5,6 +5,7 @@ using Web_Shop.Application.DTOs;
 using Web_Shop.Application.Services.Interfaces;
 using Web_Shop.Persistence.UOW.Interfaces;
 using Web_Shop.Application.Mappings;
+using Sieve.Models;
 
 namespace Web_Shop.RestAPI.Controllers
 {
@@ -35,13 +36,18 @@ namespace Web_Shop.RestAPI.Controllers
             return StatusCode((int)result.StatusCode, result.entity!.MapGetSingleCustomerDTO());
         }
 
-        /*
         [HttpGet("list")]
         [SwaggerOperation(OperationId = "GetCustomers")]
-        public async Task<IActionResult> GetCustomers()
+        public async Task<IActionResult> GetCustomers([FromQuery] SieveModel paginationParams)
         {
-            return Ok(await _unitOfWork.CustomerRepository.Entities.ToListAsync());
+            var result = await _customerService.SearchCustomersAsync(paginationParams);
+
+            if (!result.IsSuccess)
+            {
+                return Problem(statusCode: (int)result.StatusCode, title: "Read error.", detail: result.ErrorMessage);
+            }
+
+            return Ok(result.entityList);
         }
-        */
     }
 }
