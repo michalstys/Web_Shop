@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Web_Shop.Application.Helpers.PagedList
 {
-    public class PagedListMetaData : IPagedList
+    public class PagedListMetaData<T> : IPagedList<T>
     {
         protected PagedListMetaData()
         {
         }
 
-        public PagedListMetaData(IPagedList pagedList)
+        public PagedListMetaData(IPagedList<T> pagedList)
         {
             PageCount = pagedList.PageCount;
             TotalItemCount = pagedList.TotalItemCount;
@@ -48,6 +48,6 @@ namespace Web_Shop.Application.Helpers.PagedList
 
         public int LastItemOnPage { get; protected set; }
 
-        public IEnumerable PageData { get; set; }
+        public IEnumerable<T> PageData { get; set; }
     }
 }

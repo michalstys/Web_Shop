@@ -6,6 +6,8 @@ using Web_Shop.Application.Services.Interfaces;
 using Web_Shop.Persistence.UOW.Interfaces;
 using Web_Shop.Application.Mappings;
 using Sieve.Models;
+using Web_Shop.Application.Helpers.PagedList;
+using WWSI_Shop.Persistence.MySQL.Model;
 
 namespace Web_Shop.RestAPI.Controllers
 {
@@ -38,7 +40,7 @@ namespace Web_Shop.RestAPI.Controllers
 
         [HttpGet("list")]
         [SwaggerOperation(OperationId = "GetCustomers")]
-        public async Task<IActionResult> GetCustomers([FromQuery] SieveModel paginationParams)
+        public async Task<ActionResult<IPagedList<GetSingleCustomerDTO>>> GetCustomers([FromQuery] SieveModel paginationParams)
         {
             var result = await _customerService.SearchCustomersAsync(paginationParams);
 

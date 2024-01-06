@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Web_Shop.Application.Helpers.PagedList
 {
-    public interface IPagedList<out T, TOut> : IPagedList
+    public interface IPagedList<out T, TOut> : IPagedList<TOut>
     {
         /*
         TOut this[int index] { get; }
         int Count { get; }
         */
-        IPagedList GetMetaData();
+        IPagedList<TOut> GetMetaData();
     }
 
-    public interface IPagedList
+    public interface IPagedList<TOut>
     {
         int PageCount { get; }
 
@@ -38,6 +38,6 @@ namespace Web_Shop.Application.Helpers.PagedList
 
         int LastItemOnPage { get; }
 
-        public IEnumerable PageData { get; }
+        public IEnumerable<TOut> PageData { get; }
     }
 }

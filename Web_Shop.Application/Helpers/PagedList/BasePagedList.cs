@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Web_Shop.Application.Helpers.PagedList.IPagedList;
 
 namespace Web_Shop.Application.Helpers.PagedList
 {
-    public abstract class BasePagedList<T, TOut> : PagedListMetaData, IPagedList<T, TOut>
+    public abstract class BasePagedList<T, TOut> : PagedListMetaData<TOut>, IPagedList<T, TOut>
     {
 
         protected internal BasePagedList()
@@ -39,6 +38,8 @@ namespace Web_Shop.Application.Helpers.PagedList
                                  : numberOfLastItemOnPage;
         }
 
+        IEnumerable<TOut> IPagedList<TOut>.PageData => throw new NotImplementedException();
+
         /*
         public IEnumerator<TOut> GetEnumerator()
         {
@@ -61,9 +62,9 @@ namespace Web_Shop.Application.Helpers.PagedList
         }
         */
 
-        public IPagedList GetMetaData()
+        IPagedList<TOut> IPagedList<T, TOut>.GetMetaData()
         {
-            return new PagedListMetaData(this);
+            throw new NotImplementedException();
         }
     }
 }
