@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
+using Web_Shop.Application.DTOs;
 using Web_Shop.Application.Services.Interfaces;
 using Web_Shop.Persistence.UOW.Interfaces;
+using Web_Shop.Application.Mappings;
 
 namespace Web_Shop.RestAPI.Controllers
 {
@@ -21,7 +23,7 @@ namespace Web_Shop.RestAPI.Controllers
 
         [HttpGet("{id}")]
         [SwaggerOperation(OperationId = "GetCustomerById")]
-        public async Task<IActionResult> GetCustomer(ulong id)
+        public async Task<ActionResult<GetSingleCustomerDTO>> GetCustomer(ulong id)
         {
             var result = await _customerService.GetByIdAsync(id);
 
@@ -30,7 +32,7 @@ namespace Web_Shop.RestAPI.Controllers
                 return Problem(statusCode: (int)result.StatusCode, title: "Read error.", detail: result.ErrorMessage);
             }
 
-            return StatusCode((int)result.StatusCode, result.entity);
+            return StatusCode((int)result.StatusCode, result.entity!.MapGetSingleCustomerDTO());
         }
 
         /*
