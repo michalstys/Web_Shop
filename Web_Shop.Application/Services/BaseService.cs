@@ -8,6 +8,11 @@ using Web_Shop.Persistence.UOW.Interfaces;
 using Microsoft.Extensions.Options;
 using Sieve.Models;
 using Sieve.Services;
+using Microsoft.EntityFrameworkCore;
+using Web_Shop.Application.DTOs;
+using Web_Shop.Application.Helpers.PagedList;
+using WWSI_Shop.Persistence.MySQL.Model;
+using Web_Shop.Application.Extensions;
 
 namespace Web_Shop.Application.Services
 {
@@ -63,6 +68,27 @@ namespace Web_Shop.Application.Services
             catch (Exception ex)
             {
                 return LogError(ex.Message);
+            }
+        }
+
+        public async Task<(bool IsSuccess, IPagedList<TOut>? entityList, HttpStatusCode StatusCode, string ErrorMessage)> SearchAsync<TOut>(SieveModel paginationParams, Func<T, TOut> formatterCallback)
+        {
+            try
+            {
+                var query = _unitOfWork.Repository<T>().Entities.AsNoTracking();
+
+                var result = await query.ToPagedListAsync(_sieveProcessor,
+                                                          _sieveOptions,
+                                                          paginationParams,
+                                                          formatterCallback);
+
+                return (true, result, HttpStatusCode.OK, String.Empty);
+            }
+            catch (Exception ex)
+            {
+                var error = LogError(ex.Message);
+
+                return (false, default, error.StatusCode, error.ErrorMessage);
             }
         }
 

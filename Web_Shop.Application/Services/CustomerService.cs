@@ -89,6 +89,7 @@ namespace Web_Shop.Application.Services
             }
         }
 
+        /*
         public async Task<(bool IsSuccess, IPagedList<Customer, GetSingleCustomerDTO>? entityList, HttpStatusCode StatusCode, string ErrorMessage)> SearchCustomersAsync(SieveModel paginationParams)
         {
             try
@@ -109,6 +110,7 @@ namespace Web_Shop.Application.Services
                 return (false, default, error.StatusCode, error.ErrorMessage);
             }
         }
+        */
 
         public async Task<(bool IsSuccess, Customer? entity, HttpStatusCode StatusCode, string ErrorMessage)> VerifyPasswordByEmail(string email, string password)
         {
