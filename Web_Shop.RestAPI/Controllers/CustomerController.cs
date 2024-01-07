@@ -51,5 +51,61 @@ namespace Web_Shop.RestAPI.Controllers
 
             return Ok(result.entityList);
         }
+
+        [HttpPost("add")]
+        [SwaggerOperation(OperationId = "AddCustomer")]
+        public async Task<ActionResult<GetSingleCustomerDTO>> AddCustomer([FromBody] AddUpdateCustomerDTO dto)
+        {
+            var result = await _customerService.CreateNewCustomerAsync(dto);
+
+            if (!result.IsSuccess)
+            {
+                return Problem(statusCode: (int)result.StatusCode, title: "Add error.", detail: result.ErrorMessage);
+            }
+
+            return CreatedAtAction(nameof(GetCustomer), new { id = result.entity.IdCustomer }, result.entity.MapGetSingleCustomerDTO());
+        }
+
+        [HttpPut("update/{id}")]
+        [SwaggerOperation(OperationId = "UpdateCustomer")]
+        public async Task<ActionResult<GetSingleCustomerDTO>> UpdateCustomer(ulong id, [FromBody] AddUpdateCustomerDTO dto)
+        {
+            var result = await _customerService.UpdateExistingCustomerAsync(dto, id);
+
+            if (!result.IsSuccess)
+            {
+                return Problem(statusCode: (int)result.StatusCode, title: "Update error.", detail: result.ErrorMessage);
+            }
+
+            return StatusCode((int)result.StatusCode, result.entity.MapGetSingleCustomerDTO());
+        }
+
+        [HttpGet("verifyPassword/{email}/{password}")]
+        [SwaggerOperation(OperationId = "VerifyPasswordByEmail")]
+        public async Task<ActionResult<GetSingleCustomerDTO>> VerifyPasswordByEmail(string email, string password)
+        {
+            var result = await _customerService.VerifyPasswordByEmail(email, password);
+
+            if (!result.IsSuccess)
+            {
+                return Problem(statusCode: (int)result.StatusCode, title: "Read error.", detail: result.ErrorMessage);
+            }
+
+            return StatusCode((int)result.StatusCode, result.entity.MapGetSingleCustomerDTO());
+        }
+
+        [HttpDelete("{id}")]
+        [SwaggerOperation(OperationId = "DeleteCustomer")]
+        public async Task<IActionResult> DeleteCustomer(ulong id)
+        {
+            var result = await _customerService.DeleteAndSaveAsync(id);
+
+            if (!result.IsSuccess)
+            {
+                return Problem(statusCode: (int)result.StatusCode, title: "Delete error.", detail: result.ErrorMessage);
+            }
+
+            return NoContent();
+        }
     }
 }
