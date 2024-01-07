@@ -42,7 +42,7 @@ namespace Web_Shop.RestAPI.Controllers
         [SwaggerOperation(OperationId = "GetCustomers")]
         public async Task<ActionResult<IPagedList<GetSingleCustomerDTO>>> GetCustomers([FromQuery] SieveModel paginationParams)
         {
-            var result = await _customerService.SearchAsync(paginationParams, formatterCallback => DomainToDtoMapper.MapGetSingleCustomerDTO(formatterCallback));
+            var result = await _customerService.SearchAsync(paginationParams, resultEntity => DomainToDtoMapper.MapGetSingleCustomerDTO(resultEntity));
 
             if (!result.IsSuccess)
             {
