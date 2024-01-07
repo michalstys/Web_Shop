@@ -64,7 +64,7 @@ namespace Web_Shop.Application.Helpers.PagedList
 
         IPagedList<TOut> IPagedList<T, TOut>.GetMetaData()
         {
-            throw new NotImplementedException();
+            return new PagedListMetaData<TOut>(this);
         }
     }
 }
