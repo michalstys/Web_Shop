@@ -1,4 +1,4 @@
-namespace Web_Shop.UnitTests
+namespace Web_Shop.Tests_InMemoryDB
 {
     public class UnitTest1
     {
