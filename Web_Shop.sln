@@ -11,7 +11,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_Shop.Persistence", "Web_Shop.Persistence\Web_Shop.Persistence.csproj", "{9855C0D6-518E-4B27-B43E-8F9FEAA6DF7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_Shop.Application", "Web_Shop.Application\Web_Shop.Application.csproj", "{72CDBF84-FA88-4B86-8024-8D98F5343F94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_Shop.Application", "Web_Shop.Application\Web_Shop.Application.csproj", "{72CDBF84-FA88-4B86-8024-8D98F5343F94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web_Shop.UnitTests", "Web_Shop.UnitTests\Web_Shop.UnitTests.csproj", "{CE913E93-2EAA-4937-9141-69545D429FF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{72CDBF84-FA88-4B86-8024-8D98F5343F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72CDBF84-FA88-4B86-8024-8D98F5343F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72CDBF84-FA88-4B86-8024-8D98F5343F94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE913E93-2EAA-4937-9141-69545D429FF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE913E93-2EAA-4937-9141-69545D429FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE913E93-2EAA-4937-9141-69545D429FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE913E93-2EAA-4937-9141-69545D429FF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
