@@ -61,7 +61,7 @@ namespace Web_Shop.Persistence.Repositories
 
         public virtual async Task<T> UpdateAsync(T entity, params object?[]? id)
         {
-            _dbContext.Update(entity);
+            var task = await Task.Run(() => _dbContext.Update(entity));
 
             return entity;
         }
