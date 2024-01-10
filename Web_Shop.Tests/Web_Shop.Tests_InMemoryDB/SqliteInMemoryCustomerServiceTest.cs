@@ -18,7 +18,7 @@ using Web_Shop.Application.Mappings.PropertiesMappings;
 using Web_Shop.Application.Services;
 using Web_Shop.Persistence.Repositories;
 using Web_Shop.Persistence.UOW;
-using Web_Shop.UnitTests.Common.Sieve;
+using Web_Shop.Tests.Common.Sieve;
 using WWSI_Shop.Persistence.MySQL.Context;
 using WWSI_Shop.Persistence.MySQL.Model;
 

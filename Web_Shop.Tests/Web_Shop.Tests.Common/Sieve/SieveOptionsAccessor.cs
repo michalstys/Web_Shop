@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Web_Shop.UnitTests.Common.Sieve
+namespace Web_Shop.Tests.Common.Sieve
 {
     public class SieveOptionsAccessor : IOptions<SieveOptions>
     {
