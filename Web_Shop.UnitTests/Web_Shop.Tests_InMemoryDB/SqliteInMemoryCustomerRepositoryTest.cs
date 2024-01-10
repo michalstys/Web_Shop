@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -10,56 +12,25 @@ using System.Threading.Tasks;
 using Web_Shop.Persistence.Repositories;
 using WWSI_Shop.Persistence.MySQL.Context;
 using WWSI_Shop.Persistence.MySQL.Model;
-using BC = BCrypt.Net.BCrypt;
 
 namespace Web_Shop.Tests_InMemoryDB
 {
-    public class SqliteInMemoryCustomerRepositoryTest
+    public class SqliteInMemoryCustomerRepositoryTest : IDisposable
     {
-        private readonly DbConnection _connection;
-        private readonly DbContextOptions<WwsishopContext> _contextOptions;
-
-        #region ConstructorAndDispose
+        private readonly SqliteDatabaseFixture _databaseFixture;
         public SqliteInMemoryCustomerRepositoryTest()
         {
-            // Create and open a connection. This creates the SQLite in-memory database, which will persist until the connection is closed
-            // at the end of the test (see Dispose below).
-            _connection = new SqliteConnection("Filename=:memory:");
-            _connection.Open();
-
-            // These options will be used by the context instances in this test suite, including the connection opened above.
-            _contextOptions = new DbContextOptionsBuilder<WwsishopContext>()
-                .UseSqlite(_connection)
-                .Options;
-
-            // Create the schema and seed some data
-            using var context = new WwsishopContext(_contextOptions);
-
-            if (context.Database.EnsureCreated())
-            {
-                using var viewCommand = context.Database.GetDbConnection().CreateCommand();
-                viewCommand.CommandText = @"
-CREATE VIEW AllResources AS
-SELECT Name
-FROM Customer;";
-                viewCommand.ExecuteNonQuery();
-            }
-            context.AddRange(
-                new Customer { IdCustomer = 1, Name = "Michał", Surname = "Styś", Email = "michal.stys@gmail.com", PasswordHash = BC.HashPassword("Test111") },
-                new Customer { IdCustomer = 2, Name = "Jan", Surname = "Kowalski", Email = "jan.kowalski@o2.pl", PasswordHash = BC.HashPassword("Test222") });
-            context.SaveChanges();
-
+            _databaseFixture = new SqliteDatabaseFixture();
         }
-
-        WwsishopContext CreateContext() => new WwsishopContext(_contextOptions);
-
-        public void Dispose() => _connection.Dispose();
-        #endregion
+        public void Dispose()
+        {
+            _databaseFixture.Dispose();
+        }
 
         [Fact]
         public async Task EmailExistsAsyncPositive()
         {
-            using var context = CreateContext();
+            using var context = _databaseFixture.CreateContext();
 
             var customerRepository = new CustomerRepository(context);
 
@@ -71,7 +42,7 @@ FROM Customer;";
         [Fact]
         public async Task EmailExistsAsyncNegative()
         {
-            using var context = CreateContext();
+            using var context = _databaseFixture.CreateContext();
 
             var customerRepository = new CustomerRepository(context);
 
@@ -83,7 +54,7 @@ FROM Customer;";
         [Fact]
         public async Task IsEmailEditAllowedAsyncPositive()
         {
-            using var context = CreateContext();
+            using var context = _databaseFixture.CreateContext();
 
             var customerRepository = new CustomerRepository(context);
 
@@ -95,7 +66,7 @@ FROM Customer;";
         [Fact]
         public async Task IsEmailEditAllowedAsyncNegative()
         {
-            using var context = CreateContext();
+            using var context = _databaseFixture.CreateContext();
 
             var customerRepository = new CustomerRepository(context);
 
@@ -107,7 +78,7 @@ FROM Customer;";
         [Fact]
         public async Task GetByEmailAsync()
         {
-            using var context = CreateContext();
+            using var context = _databaseFixture.CreateContext();
 
             var customerRepository = new CustomerRepository(context);
 
