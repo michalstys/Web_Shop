@@ -70,6 +70,7 @@ namespace Web_Shop.TestsMocks
             var verifyResult = await customerService.VerifyPasswordByEmail("jan.kowalski@o2.pl", "Test211");
 
             Assert.False(verifyResult.IsSuccess);
+            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, verifyResult.StatusCode);
         }
     }
 }
