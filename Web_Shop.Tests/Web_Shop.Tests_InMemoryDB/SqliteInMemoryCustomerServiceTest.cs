@@ -51,7 +51,7 @@ namespace Web_Shop.Tests_InMemoryDB
         }
 
         [Fact]
-        public async Task SearchAsync()
+        public async Task CustomerService_SearchAsync_ReturnsTrue()
         {
             using var context = _databaseFixture.CreateContext();
 
@@ -64,7 +64,6 @@ namespace Web_Shop.Tests_InMemoryDB
                 Filters = "Name@=Mic"
             };
 
-            //var searchResult = await customerService.VerifyPasswordByEmail("michal.stys@gmail.com", "Test111");
             var searchResult = await customerService.SearchAsync(model, resultEntity => DomainToDtoMapper.MapGetSingleCustomerDTO(resultEntity));
 
             Assert.True(searchResult.IsSuccess);

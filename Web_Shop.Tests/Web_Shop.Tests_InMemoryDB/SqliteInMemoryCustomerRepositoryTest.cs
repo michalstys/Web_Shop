@@ -28,7 +28,7 @@ namespace Web_Shop.Tests_InMemoryDB
         }
 
         [Fact]
-        public async Task EmailExistsAsyncPositive()
+        public async Task CustomerRepository_EmailExistsAsync_ReturnsTrue()
         {
             using var context = _databaseFixture.CreateContext();
 
@@ -40,7 +40,7 @@ namespace Web_Shop.Tests_InMemoryDB
         }
 
         [Fact]
-        public async Task EmailExistsAsyncNegative()
+        public async Task CustomerRepository_EmailExistsAsync_ReturnsFalse()
         {
             using var context = _databaseFixture.CreateContext();
 
@@ -52,7 +52,7 @@ namespace Web_Shop.Tests_InMemoryDB
         }
 
         [Fact]
-        public async Task IsEmailEditAllowedAsyncPositive()
+        public async Task CustomerRepository_IsEmailEditAllowedAsync_ReturnsTrue()
         {
             using var context = _databaseFixture.CreateContext();
 
@@ -64,7 +64,7 @@ namespace Web_Shop.Tests_InMemoryDB
         }
 
         [Fact]
-        public async Task IsEmailEditAllowedAsyncNegative()
+        public async Task CustomerRepository_IsEmailEditAllowedAsync_ReturnsFalse()
         {
             using var context = _databaseFixture.CreateContext();
 
@@ -76,7 +76,7 @@ namespace Web_Shop.Tests_InMemoryDB
         }
 
         [Fact]
-        public async Task GetByEmailAsync()
+        public async Task CustomerRepository_GetByEmailAsync_Exists()
         {
             using var context = _databaseFixture.CreateContext();
 
@@ -86,6 +86,18 @@ namespace Web_Shop.Tests_InMemoryDB
 
             Assert.Equal("Michał", customer.Name);
             Assert.Equal("Styś", customer.Surname);
+        }
+
+        [Fact]
+        public async Task CustomerRepository_GetByEmailAsync_NotExist()
+        {
+            using var context = _databaseFixture.CreateContext();
+
+            var customerRepository = new CustomerRepository(context);
+
+            var customer = await customerRepository.GetByEmailAsync("jan.nowak@gmail.com");
+
+            Assert.Null(customer);
         }
     }
 }
