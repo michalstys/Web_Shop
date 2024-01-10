@@ -75,7 +75,7 @@ namespace Web_Shop.Tests_InMemoryDB
 
                 Assert.True(verifyResult.IsSuccess);
                 Assert.Equal(System.Net.HttpStatusCode.OK, verifyResult.StatusCode);
-                Assert.Equal(verifyResult.entity!.Email, "test@domain.com");
+                Assert.Equal("test@domain.com", verifyResult.entity!.Email);
             }
         }
 

@@ -35,26 +35,6 @@ namespace Web_Shop.UnitTests
                 new Mock<SieveCustomFilterMethods>().Object);
         }
 
-        public static Mock<ICustomerRepository> GetICustomerRepositoryMock()
-        {
-            var mock = new Mock<ICustomerRepository>();
-
-            mock.Setup(m => m.EmailExistsAsync(It.IsAny<string>())).Returns((string email) => Task.FromResult(false));
-            mock.Setup(m => m.GetByEmailAsync(It.IsAny<string>())).Returns((string email) => Task.FromResult(new Customer { IdCustomer = 2, Name = "Jan", Surname = "Kowalski", Email = "jan.kowalski@o2.pl", PasswordHash = BC.HashPassword("Test222") }));
-
-            return mock;
-        }
-
-        public static Mock<IUnitOfWork> GetIUnitOfWorkMock()
-        {
-            var mock = new Mock<IUnitOfWork>();
-
-            mock.Setup(m => m.Repository<Customer>()).Returns(() => GetICustomerRepositoryMock().Object);
-            mock.Setup(m => m.CustomerRepository).Returns(() => GetICustomerRepositoryMock().Object);
-
-            return mock;
-        }
-
         [Theory]
         [InlineData(false)]
         public async Task CustomerService_CreateNewCustomerAsync_ReturnsTrue(bool emailExists)
@@ -114,7 +94,13 @@ namespace Web_Shop.UnitTests
         [Fact]
         public async Task CustomerService_VerifyPasswordByEmailTest_ReturnsTrue()
         {
-            var customerService = new CustomerService(_loggerMock.Object, _processorMock.Object, _optionsAccessorMock.Object, GetIUnitOfWorkMock().Object);
+            var customerRepositoryMock = new Mock<ICustomerRepository>();
+            customerRepositoryMock.Setup(m => m.GetByEmailAsync(It.IsAny<string>())).Returns((string email) => Task.FromResult(new Customer { IdCustomer = 2, Name = "Jan", Surname = "Kowalski", Email = "jan.kowalski@o2.pl", PasswordHash = BC.HashPassword("Test222") }));
+
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
+            unitOfWorkMock.Setup(m => m.CustomerRepository).Returns(() => customerRepositoryMock.Object);
+
+            var customerService = new CustomerService(_loggerMock.Object, _processorMock.Object, _optionsAccessorMock.Object, unitOfWorkMock.Object);
 
             var verifyResult = await customerService.VerifyPasswordByEmail("jan.kowalski@o2.pl", "Test222");
 
@@ -126,7 +112,13 @@ namespace Web_Shop.UnitTests
         [Fact]
         public async Task CustomerService_VerifyPasswordByEmailTest_ReturnsFalse()
         {
-            var customerService = new CustomerService(_loggerMock.Object, _processorMock.Object, _optionsAccessorMock.Object, GetIUnitOfWorkMock().Object);
+            var customerRepositoryMock = new Mock<ICustomerRepository>();
+            customerRepositoryMock.Setup(m => m.GetByEmailAsync(It.IsAny<string>())).Returns((string email) => Task.FromResult(new Customer { IdCustomer = 2, Name = "Jan", Surname = "Kowalski", Email = "jan.kowalski@o2.pl", PasswordHash = BC.HashPassword("Test222") }));
+
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
+            unitOfWorkMock.Setup(m => m.CustomerRepository).Returns(() => customerRepositoryMock.Object);
+
+            var customerService = new CustomerService(_loggerMock.Object, _processorMock.Object, _optionsAccessorMock.Object, unitOfWorkMock.Object);
 
             var verifyResult = await customerService.VerifyPasswordByEmail("jan.kowalski@o2.pl", "Test211");
 
