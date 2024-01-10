@@ -69,12 +69,13 @@ namespace Web_Shop.UnitTests
 
             var customerService = new CustomerService(_loggerMock.Object, _processorMock.Object, _optionsAccessorMock.Object, unitOfWorkMock.Object);
 
-            var addUpdateCustomerDTO = new AddUpdateCustomerDTO() 
-                {   Name = "Test",
-                    Surname = "Test",
-                    Password = "Test",
-                    Email = "test@domain.com"
-                };
+            var addUpdateCustomerDTO = new AddUpdateCustomerDTO()
+            {
+                Name = "TestName",
+                Surname = "TestSurname",
+                Password = "TestPassword",
+                Email = "test@domain.com"
+            };
 
             var verifyResult = await customerService.CreateNewCustomerAsync(addUpdateCustomerDTO);
 
