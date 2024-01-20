@@ -2,6 +2,7 @@ using Web_Shop.Persistence.Extensions;
 using Web_Shop.Application.Extensions;
 using Web_Shop.Application.Utils;
 using FluentValidation.AspNetCore;
+using Web_Shop.Persistence.UOW.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        await CrmContextSeed.SeedAsync(scope.ServiceProvider.GetRequiredService<IUnitOfWork>(),
+                                            scope.ServiceProvider.GetRequiredService<ILoggerFactory>());
+    }
 }
 
 app.UseAuthorization();
