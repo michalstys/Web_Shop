@@ -3,8 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sieve.Models;
 using Sieve.Services;
+using System.Reflection;
 using Web_Shop.Application.CustomQueries;
 using Web_Shop.Application.DTOs;
+using Web_Shop.Application.Features.Commands;
 using Web_Shop.Application.Mappings.PropertiesMappings;
 using Web_Shop.Application.Services;
 using Web_Shop.Application.Services.Interfaces;
@@ -26,7 +28,9 @@ namespace Web_Shop.Application.Extensions
                 .AddScoped<ISieveProcessor, ApplicationSieveProcessor>()
                 .AddScoped(typeof(ICustomerService), typeof(CustomerService));
 
-            services.AddScoped<IValidator<AddUpdateCustomerDTO>, AddUpdateCustomerDTOValidator>();
+            services.AddScoped<IValidator<AddCustomerCommand>, AddUpdateCustomerDTOValidator>();
+
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         }
     }
 }

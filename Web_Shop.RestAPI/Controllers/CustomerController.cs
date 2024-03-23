@@ -8,6 +8,11 @@ using Web_Shop.Application.Mappings;
 using Sieve.Models;
 using Web_Shop.Application.Helpers.PagedList;
 using WWSI_Shop.Persistence.MySQL.Model;
+using MediatR;
+using Web_Shop.Application.Features.Queries;
+using System.Net;
+using Web_Shop.Application.Features.Commands;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Web_Shop.RestAPI.Controllers
 {
@@ -15,11 +20,13 @@ namespace Web_Shop.RestAPI.Controllers
     [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
+        private readonly IMediator _mediator;
         private readonly ICustomerService _customerService;
         private readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService)
+        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService, IMediator mediator)
         {
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _customerService = customerService;
             _logger = logger;
         }
@@ -28,81 +35,105 @@ namespace Web_Shop.RestAPI.Controllers
         [SwaggerOperation(OperationId = "GetCustomerById")]
         public async Task<ActionResult<GetSingleCustomerDTO>> GetCustomer(ulong id)
         {
-            var result = await _customerService.GetByIdAsync(id);
+            GetSingleCustomerDTO customer;
 
-            if (!result.IsSuccess)
+            try
             {
-                return Problem(statusCode: (int)result.StatusCode, title: "Read error.", detail: result.ErrorMessage);
+                customer = await _mediator.Send(new GetSingleCustomerQuery() { CustomerId = id });
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: (int?)HttpStatusCode.InternalServerError, title: "Read error.", detail: ex.Message);
             }
 
-            return StatusCode((int)result.StatusCode, result.entity!.MapGetSingleCustomerDTO());
+            return StatusCode((int)HttpStatusCode.OK, customer);
         }
 
         [HttpGet("list")]
         [SwaggerOperation(OperationId = "GetCustomers")]
         public async Task<ActionResult<IPagedList<GetSingleCustomerDTO>>> GetCustomers([FromQuery] SieveModel paginationParams)
         {
-            var result = await _customerService.SearchAsync(paginationParams, resultEntity => DomainToDtoMapper.MapGetSingleCustomerDTO(resultEntity));
+            IPagedList<GetSingleCustomerDTO> customersList;
 
-            if (!result.IsSuccess)
+            try
             {
-                return Problem(statusCode: (int)result.StatusCode, title: "Read error.", detail: result.ErrorMessage);
+                customersList = await _mediator.Send(new GetAllCustomersQuery() { paginationParams = paginationParams });
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: (int?)HttpStatusCode.InternalServerError, title: "Read error.", detail: ex.Message);
             }
 
-            return Ok(result.entityList);
+            return Ok(customersList);
         }
 
         [HttpPost("add")]
         [SwaggerOperation(OperationId = "AddCustomer")]
-        public async Task<ActionResult<GetSingleCustomerDTO>> AddCustomer([FromBody] AddUpdateCustomerDTO dto)
+        public async Task<ActionResult<GetSingleCustomerDTO>> AddCustomer([FromBody] AddCustomerCommand command)
         {
-            var result = await _customerService.CreateNewCustomerAsync(dto);
+            GetSingleCustomerDTO customer;
 
-            if (!result.IsSuccess)
+            try
             {
-                return Problem(statusCode: (int)result.StatusCode, title: "Add error.", detail: result.ErrorMessage);
+                customer = await _mediator.Send(command);
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: (int)HttpStatusCode.InternalServerError, title: "Add error.", detail: ex.Message);
             }
 
-            return CreatedAtAction(nameof(GetCustomer), new { id = result.entity.IdCustomer }, result.entity.MapGetSingleCustomerDTO());
+            return CreatedAtAction(nameof(GetCustomer), new { id = customer.IdCustomer }, customer);
         }
 
         [HttpPut("update/{id}")]
         [SwaggerOperation(OperationId = "UpdateCustomer")]
-        public async Task<ActionResult<GetSingleCustomerDTO>> UpdateCustomer(ulong id, [FromBody] AddUpdateCustomerDTO dto)
+        public async Task<ActionResult<GetSingleCustomerDTO>> UpdateCustomer(ulong id, [FromBody] UpdateCustomerCommand command)
         {
-            var result = await _customerService.UpdateExistingCustomerAsync(dto, id);
+            GetSingleCustomerDTO customer;
 
-            if (!result.IsSuccess)
+            command.CustomerId = id;
+            
+            try
             {
-                return Problem(statusCode: (int)result.StatusCode, title: "Update error.", detail: result.ErrorMessage);
+                customer = await _mediator.Send(command);
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: (int)HttpStatusCode.InternalServerError, title: "Update error.", detail: ex.Message);
             }
 
-            return StatusCode((int)result.StatusCode, result.entity.MapGetSingleCustomerDTO());
+            return StatusCode((int)HttpStatusCode.OK, customer);
         }
 
         [HttpGet("verifyPassword/{email}/{password}")]
         [SwaggerOperation(OperationId = "VerifyPasswordByEmail")]
         public async Task<ActionResult<GetSingleCustomerDTO>> VerifyPasswordByEmail(string email, string password)
         {
-            var result = await _customerService.VerifyPasswordByEmail(email, password);
+            GetSingleCustomerDTO customer;
 
-            if (!result.IsSuccess)
+            try
             {
-                return Problem(statusCode: (int)result.StatusCode, title: "Read error.", detail: result.ErrorMessage);
+                customer = await _mediator.Send(new VerifyPasswordQuery() { Email = email, Password = password });
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: (int?)HttpStatusCode.InternalServerError, title: "Read error.", detail: ex.Message);
             }
 
-            return StatusCode((int)result.StatusCode, result.entity.MapGetSingleCustomerDTO());
+            return StatusCode((int)HttpStatusCode.OK, customer);
         }
 
         [HttpDelete("{id}")]
         [SwaggerOperation(OperationId = "DeleteCustomer")]
         public async Task<IActionResult> DeleteCustomer(ulong id)
         {
-            var result = await _customerService.DeleteAndSaveAsync(id);
-
-            if (!result.IsSuccess)
+            try
             {
-                return Problem(statusCode: (int)result.StatusCode, title: "Delete error.", detail: result.ErrorMessage);
+                await _mediator.Send(new DeleteCustomerCommand() { CustomerId = id });
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: (int)HttpStatusCode.InternalServerError, title: "Delete error.", detail: ex.Message);
             }
 
             return NoContent();

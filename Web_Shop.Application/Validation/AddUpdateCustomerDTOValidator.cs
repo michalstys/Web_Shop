@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Web_Shop.Application.DTOs;
+using Web_Shop.Application.Features.Commands;
 
 namespace Web_Shop.Application.Validation
 {
-    public class AddUpdateCustomerDTOValidator : AbstractValidator<AddUpdateCustomerDTO>
+    public class AddUpdateCustomerDTOValidator : AbstractValidator<AddCustomerCommand>
     {
         public AddUpdateCustomerDTOValidator()
         {
