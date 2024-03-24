@@ -21,13 +21,11 @@ namespace Web_Shop.RestAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ICustomerService _customerService;
         private readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService, IMediator mediator)
+        public CustomerController(ILogger<CustomerController> logger, IMediator mediator)
         {
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _customerService = customerService;
             _logger = logger;
         }
 
