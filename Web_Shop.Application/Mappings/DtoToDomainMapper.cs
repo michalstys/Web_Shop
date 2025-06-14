@@ -27,5 +27,20 @@ namespace Web_Shop.Application.Mappings
 
             return domainCustomer;
         }
+        public static Product MapProduct(this AddUpdateProductDTO dtoProduct)
+        {
+            if (dtoProduct == null)
+                throw new ArgumentNullException(nameof(dtoProduct));
+
+            Product domainProduct = new()
+            {
+                Name = dtoProduct.Name,
+                Description = dtoProduct.Description,
+                Price = dtoProduct.Price,
+                Sku = dtoProduct.Sku,
+            };
+
+            return domainProduct;
+        }
     }
 }

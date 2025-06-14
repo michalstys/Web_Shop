@@ -6,6 +6,8 @@ namespace Web_Shop.Persistence.UOW.Interfaces
     {
         ICustomerRepository CustomerRepository { get; }
 
+        IProductRepository ProductRepository { get; }
+
         IGenericRepository<T> Repository<T>() where T : class;
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

@@ -24,5 +24,10 @@ namespace Web_Shop.Persistence.Repositories
         {
             return await Entities.FirstOrDefaultAsync(e => e.Email == email);
         }
+
+        public Task<List<Customer>> GetCustomers()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
